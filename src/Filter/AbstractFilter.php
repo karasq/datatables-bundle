@@ -25,6 +25,9 @@ abstract class AbstractFilter
     /** @var string */
     protected $operator;
 
+    /** @var string */
+    protected $class;
+
     /**
      * @param array $options
      */
@@ -48,6 +51,7 @@ abstract class AbstractFilter
             'template_html' => null,
             'template_js' => null,
             'operator' => 'CONTAINS',
+            'class'=> 'datatable-filter'
         ]);
 
         return $this;
@@ -75,6 +79,14 @@ abstract class AbstractFilter
     public function getOperator()
     {
         return $this->operator;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
     }
 
     /**
