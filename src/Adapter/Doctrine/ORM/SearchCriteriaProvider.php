@@ -40,13 +40,16 @@ class SearchCriteriaProvider implements QueryBuilderProcessorInterface
      */
     private function processSearchColumns(QueryBuilder $queryBuilder, DataTableState $state)
     {
-        foreach ($state->getSearchColumns() as $searchInfo) {
+        $col = 0;
+        foreach ($state->getSearchColumns() as $field => $searchInfo) {
             /** @var AbstractColumn $column */
             $column = $searchInfo['column'];
             $search = $searchInfo['search'];
-
             if (!empty($search) && null !== ($filter = $column->getFilter())) {
-                $queryBuilder->andWhere(new Comparison($column->getField(), $filter->getOperator(), $search));
+                $operator = $filter->getOperator();
+                $queryBuilder
+                    ->andWhere(new Comparison($column->getField(), $operator, ':colParam' . $col))
+                    ->setParameter('colParam' . $col++, strtoupper($operator) === 'LIKE' ? ('%' . $search . '%') : $search);
             }
         }
     }
