@@ -29,6 +29,15 @@ abstract class AbstractFilter
     protected $class;
 
     /**
+     * AbstractFilter constructor.
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        $this->set($options);
+    }
+
+    /**
      * @param array $options
      */
     public function set(array $options)
